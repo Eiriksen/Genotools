@@ -42,9 +42,6 @@ clean_ID = function(dataset, column, identifier, trailing_ident=F, numLength=0, 
 
 #' determineSex
 #' For determining sex based on SDY
-#'
-#' 
-#' @param 
 #' @export prefix if you want a prefix in the new cleaned ID. Ex: "individuals2019_" will give you "individuals2019_0034"s
 #' 
 determineSex = function(dataframe, column, cutoff)
