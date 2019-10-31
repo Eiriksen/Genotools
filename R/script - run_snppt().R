@@ -1,4 +1,3 @@
-
 #' run_snppt
 #'
 #' Ver 0.1
