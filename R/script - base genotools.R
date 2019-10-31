@@ -9,6 +9,7 @@
 #' @param trailing_ident Wether the expression if before (F) or after (T)of the ID number
 #' @param numLength if you want leading zeroes, use this parameter to specify the length of the number, e.g "8" for 00000342
 #' @param prefix if you want a prefix in the new cleaned ID. Ex: "individuals2019_" will give you "individuals2019_0034"s
+#' @example df %>% cleanID("old_ID_column_name", "BT2019_")
 #' @export
 clean_ID = function(dataset, column, identifier, trailing_ident=F, numLength=0, prefix="", numeric=F)
 {
