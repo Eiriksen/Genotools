@@ -34,6 +34,7 @@ run_snppit <- function(data_offspring, data_parents, projectName="project1",over
     message("Set argument overwrite=T if you want to do a new analysis and overwrite old file.")
     data_snppit = read.table("snppit_output_ParentageAssignments.txt", head=T, comment.char = "") %>%
       rename(ID_offspring=Kid, ID_pa=Pa, ID_ma=Ma, population=PopName)
+    setwd(oldwd)
       return(data_snppit)
   }
 
