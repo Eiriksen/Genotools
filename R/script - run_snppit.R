@@ -37,6 +37,7 @@ run_snppit <- function(data_offspring, data_parents, projectName="project1"){
     if(action == "keep"){
       data_snppit = read.table("snppit_output_ParentageAssignments.txt", head=T, comment.char = "") %>%
         rename(ID_offspring=Kid, ID_pa=Pa, ID_ma=Ma, population=PopName)
+      return(data_snppit)
     }
     else if (action !="Overwrite") return(NA)
   }
