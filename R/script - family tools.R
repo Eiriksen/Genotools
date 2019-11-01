@@ -72,9 +72,8 @@ get_familyInfo = function(df,df_families,columns)
   for (i in columns){
     df[[i]] = apply(df,MARGIN=1,FUN=function(x){
       ID_fam = x[["ID_family"]]
-      df_families %>% filter(ID_family == ID_fam) %>% select(i) %>% unlist()
+      df_families %>% filter(ID_family == ID_fam) %>% select(i) %>% as.character() %>% unlist()
     })
   }
   df
 }
-
