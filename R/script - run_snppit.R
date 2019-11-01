@@ -23,23 +23,18 @@
 #' @param projectName Optional. A name that will be used for files created during the proces
 #' @export
 #' @examples run_snppt(offspring, parents, "Project_oct2019")
-run_snppit <- function(data_offspring, data_parents, projectName="project1"){
+run_snppit <- function(data_offspring, data_parents, projectName="project1",overWrite=F){
 
   oldwd = getwd()
   setwd(paste(oldwd,"/snppit",sep=""))
 
   # First: check if this analysis has maybe already been done, if so, ask the user if she wants to skip it and load data from the previous run
-  if (file.exists("snppit_output_ParentageAssignments.txt")){
-    message("There is already a file with the results of a parentage assignment ready, what do you want to do?")
-    message(" keep: Keeps the old file and readds it \n Overwrite: Runs a new SNPPT analysis and overwrites the old file \n exit: do nothing")
-    action = readline()
-
-    if(action == "keep"){
-      data_snppit = read.table("snppit_output_ParentageAssignments.txt", head=T, comment.char = "") %>%
-        rename(ID_offspring=Kid, ID_pa=Pa, ID_ma=Ma, population=PopName)
+  if (file.exists("snppit_output_ParentageAssignments.txt") & overwrite=F){
+    message("snppit_output_ParentageAssignments.txt already exsist, loading that instead of doing new SNPPT run.")
+    message("Set argument overwrite=T if you want to do a new analysis and overwrite old file.")
+    data_snppit = read.table("snppit_output_ParentageAssignments.txt", head=T, comment.char = "") %>%
+      rename(ID_offspring=Kid, ID_pa=Pa, ID_ma=Ma, population=PopName)
       return(data_snppit)
-    }
-    else if (action !="Overwrite") return(NA)
   }
 
   # Check that the parent set has columns "ID", "Sex" and "population"
