@@ -28,6 +28,19 @@ run_snppit <- function(data_offspring, data_parents, projectName="project1"){
   oldwd = getwd()
   setwd(paste(oldwd,"/snppit",sep=""))
 
+  # First: check if this analysis has maybe already been done, if so, ask the user if she wants to skip it and load data from the previous run
+  if (file.exist("snppit_output_ParentageAssignments.txt")){
+    message("There is already a file with the results of a parentage assignment ready, what do you want to do?")
+    message("keep: Keeps the old file and readds it \n Overwrite: Runs a new SNPPT analysis and overwrites the old file \n Exit: do nothing")
+    action = readlines()
+
+    if(action == "keep"){
+      data_snppit = read.table("snppit_output_ParentageAssignments.txt", head=T, comment.char = "") %>%
+        rename(ID_offspring=Kid, ID_pa=Pa, ID_ma=Ma, population=PopName)
+    }
+    else if (action =="exit") return(NA)
+  }
+
   # Check that the parent set has columns "ID", "Sex" and "population"
   check_columns(data_parents,c("ID","sex","population"))
   check_columns(data_offspring,c("ID"))
