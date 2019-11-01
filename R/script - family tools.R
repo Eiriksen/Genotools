@@ -1,13 +1,15 @@
+#' get_advanced_genotypes
+#' @export
 get_advanced_genotypes <- function(offspring, families) {
   # Function for this specific pipeline, gives the correct heterozygote phenotype
   # apply following function to all offspring:
-  
+
   apply(offspring,1,FUN=function(x) {
     vgll3geno = as.numeric(x[["c25_1441_SAC"]])
     fam = as.numeric(x[["family"]])
     pop = x[["population"]]
     if(is.na(vgll3geno)) return("NA")
-    
+
     if (vgll3geno == 1) {
       return("EE")
     }
@@ -25,9 +27,11 @@ get_advanced_genotypes <- function(offspring, families) {
     }
     return("none of the above")
   })
-  
+
 }
 
+#' findFamily
+#' @export
 findFamily = function(ID_mams, ID_paps)
 {
   family = unlist(data_families %>% filter(ID_ma == ID_mams & ID_pa == ID_paps) %>% select(ID_family))

@@ -25,6 +25,9 @@
 #' @examples run_snppt(offspring, parents, "Project_oct2019")
 run_snppit <- function(data_offspring, data_parents, projectName="project1"){
 
+  oldwd = getwd()
+  setwd(paste(oldwd,"/snppit",sep=""))
+
   # Check that the parent set has columns "ID", "Sex" and "population"
   check_columns(data_parents,c("ID","sex","population"))
   check_columns(data_offspring,c("ID"))
@@ -60,6 +63,8 @@ run_snppit <- function(data_offspring, data_parents, projectName="project1"){
 
   # Return results
   message("results ready!")
+  message("Raw data can be found in ",location,"/snppit_output_ParentageAssignments.txt")
+  setwd(oldwd)
   return(data_snppit)
 }
 

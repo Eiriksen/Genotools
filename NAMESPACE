@@ -3,6 +3,8 @@
 export(clean_ID)
 export(convertType)
 export(determineSex)
+export(findFamily)
+export(get_advanced_genotypes)
 export(numextract)
 export(remoNA)
 export(renameGenotypes)
