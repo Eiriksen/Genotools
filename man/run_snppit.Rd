@@ -4,7 +4,12 @@
 \alias{run_snppit}
 \title{run_snppt}
 \usage{
-run_snppit(data_offspring, data_parents, projectName = "project1")
+run_snppit(
+  data_offspring,
+  data_parents,
+  projectName = "project1",
+  overWrite = F
+)
 }
 \arguments{
 \item{data_offspring}{Dataset contaning offspring ID's and SNP genotypes (see above)}

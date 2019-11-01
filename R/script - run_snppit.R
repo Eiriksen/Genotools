@@ -29,7 +29,7 @@ run_snppit <- function(data_offspring, data_parents, projectName="project1",over
   setwd(paste(oldwd,"/snppit",sep=""))
 
   # First: check if this analysis has maybe already been done, if so, ask the user if she wants to skip it and load data from the previous run
-  if (file.exists("snppit_output_ParentageAssignments.txt") & overwrite=F){
+  if (file.exists("snppit_output_ParentageAssignments.txt") & overwrite==F){
     message("snppit_output_ParentageAssignments.txt already exsist, loading that instead of doing new SNPPT run.")
     message("Set argument overwrite=T if you want to do a new analysis and overwrite old file.")
     data_snppit = read.table("snppit_output_ParentageAssignments.txt", head=T, comment.char = "") %>%
