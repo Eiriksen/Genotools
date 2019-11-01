@@ -9,9 +9,10 @@
 #' @param trailing_ident Wether the expression if before (F) or after (T)of the ID number
 #' @param numLength if you want leading zeroes, use this parameter to specify the length of the number, e.g "8" for 00000342
 #' @param prefix if you want a prefix in the new cleaned ID. Ex: "individuals2019_" will give you "individuals2019_0034"s
+#' @param keepName T: keeps the old column name, F: renames it to "ID", any other string: Renames the column to this string
 #' @example df %>% cleanID("old_ID_column_name", "BT2019_")
 #' @export
-clean_ID = function(dataset, column, identifier, trailing_ident=F, numLength=0, prefix="", numeric=F)
+clean_ID = function(dataset, column, identifier="", trailing_ident=F, numLength=4, prefix="", numeric=F, keepName=F)
 {
   # Extract the dirty ID's
   dirtyID = unlist(dataset[column])
@@ -23,23 +24,32 @@ clean_ID = function(dataset, column, identifier, trailing_ident=F, numLength=0, 
 
   # Set the old column to be the new ID
   dataset[column] = cleanID
+
+  # Check what name to use
+  if (keepName == F) nColName = "ID"
+  else if (keepName == T) nColName = column
+  else nColName = keepName
+
+  message(nColName)
+
   # Rename the column to "ID", and remove NA values (thoes not fitting the format)
-  dataset = dataset %>% rename("ID"=column) %>% remoNA("ID")
+  dataset = dataset %>% rename(!! nColName := !! column) %>% remoNA(nColName)
 
   # Remove the old identifier
-  dataset$ID = dataset$ID %>% sub(identifier,"", .)
+  dataset[[nColName]] = dataset[[nColName]] %>% sub(identifier,"", .)
 
   # Add leading zeroes
-  if (numLength !=0) dataset$ID = dataset$ID %>% as.numeric() %>% sprintf( paste("%0",numLength,"d",sep=""), .)
+  if (numLength !=0) dataset[[nColName]] = dataset[[nColName]] %>% as.numeric() %>% sprintf( paste("%0",numLength,"d",sep=""), .)
 
   # Make numeric (or not)
-  if (numeric) dataset$ID = as.numeric(dataset$ID)
+  if (numeric) dataset[[nColName]] = as.numeric(dataset[[nColName]])
 
   # Add the new prefix
-  if (prefix!="") dataset$ID =dataset$ID %>% paste(prefix, ., sep="")
+  if (prefix!="") dataset[[nColName]] =dataset[[nColName]] %>% paste(prefix, ., sep="")
 
   return(dataset)
 }
+
 
 
 #' determineSex
