@@ -38,7 +38,7 @@ run_snppit <- function(data_offspring, data_parents, projectName="project1"){
       data_snppit = read.table("snppit_output_ParentageAssignments.txt", head=T, comment.char = "") %>%
         rename(ID_offspring=Kid, ID_pa=Pa, ID_ma=Ma, population=PopName)
     }
-    else if (action =="exit") return(NA)
+    else if (action !="Overwrite") return(NA)
   }
 
   # Check that the parent set has columns "ID", "Sex" and "population"
