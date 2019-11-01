@@ -1,6 +1,6 @@
 
 
-#' clean_ID()
+#' clean_ID
 #'
 #' For cleaning "dirty" ID's and removing rows that doesn't match our ID-pattern
 #' @param dataset the dataset we're using. Each row has it's own ID
@@ -10,7 +10,6 @@
 #' @param numLength if you want leading zeroes, use this parameter to specify the length of the number, e.g "8" for 00000342
 #' @param prefix if you want a prefix in the new cleaned ID. Ex: "individuals2019_" will give you "individuals2019_0034"s
 #' @param keepName T: keeps the old column name, F: renames it to "ID", any other string: Renames the column to this string
-#' @example df %>% cleanID("old_ID_column_name", "BT2019_")
 #' @export
 clean_ID = function(dataset, column, identifier="", trailing_ident=F, numLength=4, prefix="", numeric=F, keepName=F)
 {

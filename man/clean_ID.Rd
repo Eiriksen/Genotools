@@ -2,16 +2,17 @@
 % Please edit documentation in R/script - base genotools.R
 \name{clean_ID}
 \alias{clean_ID}
-\title{clean_ID()}
+\title{clean_ID}
 \usage{
 clean_ID(
   dataset,
   column,
-  identifier,
+  identifier = "",
   trailing_ident = F,
-  numLength = 0,
+  numLength = 4,
   prefix = "",
-  numeric = F
+  numeric = F,
+  keepName = F
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ clean_ID(
 \item{numLength}{if you want leading zeroes, use this parameter to specify the length of the number, e.g "8" for 00000342}
 
 \item{prefix}{if you want a prefix in the new cleaned ID. Ex: "individuals2019_" will give you "individuals2019_0034"s}
+
+\item{keepName}{T: keeps the old column name, F: renames it to "ID", any other string: Renames the column to this string}
 }
 \description{
 For cleaning "dirty" ID's and removing rows that doesn't match our ID-pattern
