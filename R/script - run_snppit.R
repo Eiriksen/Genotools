@@ -23,7 +23,7 @@
 #' @param projectName Optional. A name that will be used for files created during the proces
 #' @export
 #' @examples run_snppt(offspring, parents, "Project_oct2019")
-run_snppit <- function(data_offspring, data_parents, projectName="project1",overWrite=F){
+run_snppit <- function(data_offspring, data_parents, projectName="project1",overwrite=F){
 
   oldwd = getwd()
   setwd(paste(oldwd,"/snppit",sep=""))

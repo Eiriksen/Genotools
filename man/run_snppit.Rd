@@ -8,7 +8,7 @@ run_snppit(
   data_offspring,
   data_parents,
   projectName = "project1",
-  overWrite = F
+  overwrite = F
 )
 }
 \arguments{
