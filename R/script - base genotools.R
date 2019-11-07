@@ -1,4 +1,6 @@
-
+# Stuff to add later to clean_ID
+#   option to not remove NA values
+#   alternative function that only works on vectors/lists
 
 #' clean_ID
 #'
@@ -29,9 +31,7 @@ clean_ID = function(dataset, column, identifier="", trailing_ident=F, numLength=
   else if (keepName == T) nColName = column
   else nColName = keepName
 
-  message(nColName)
-
-  # Rename the column to "ID", and remove NA values (thoes not fitting the format)
+  # Rename the column to "ID", and remove NA values (those not fitting the format)
   dataset = dataset %>% rename(!! nColName := !! column) %>% remoNA(nColName)
 
   # Remove the old identifier
@@ -55,8 +55,7 @@ clean_ID = function(dataset, column, identifier="", trailing_ident=F, numLength=
 #' For determining sex based on SDY
 #' @export
 #'
-determineSex = function(dataframe, column, cutoff)
-{
+determineSex = function(dataframe, column, cutoff) {
   dataframe = dataframe %>% group_by(ID, SEQRUN) %>% mutate(
     sex = SDY_to_sex(dataframe %>% select(matches(column)) %>% filter(dataframe$ID==ID) , cutoff)
   )
@@ -70,8 +69,7 @@ determineSex = function(dataframe, column, cutoff)
 #' Sets sex to "NA" when a certain amount of SNP's are missing as NA
 #' @export
 #'
-unSexBad = function(dataframe, column, sensitivity=0.35)
-{
+unSexBad = function(dataframe, column, sensitivity=0.35) {
   sex = unlist(dataframe[column])
   colNum = length(names(dataframe))
 
@@ -95,8 +93,7 @@ renameGenotypes = function(dataframe, LUT, not_genotypes=c()) {
 }
 
 
-determineSex2 = function(dataframe, column, cutoff)
-{
+determineSex2 = function(dataframe, column, cutoff) {
   dataframe = dataframe %>% group_by(ID) %>% mutate(
     sex = SDY_to_sex(dataframe %>% select(matches(column)) %>% filter(dataframe$ID==ID) , cutoff)
   )
@@ -104,16 +101,13 @@ determineSex2 = function(dataframe, column, cutoff)
   return(dataframe )
 }
 
-SDY_to_sex = function(vector, cutoff)
-{
+SDY_to_sex = function(vector, cutoff) {
   sdy = mean(unlist(vector[1]), na.rm=T)
 
   if (is.na(sdy)) return(NA)
   else if (sdy <= cutoff) return("F")
   else return("M")
 }
-
-
 
 
 safeMerge = function(vector){
@@ -163,12 +157,46 @@ numextract <- function(string){
   require(stringr)
   as.numeric(str_extract(string, "\\-*\\d+\\.*\\d*"))
 }
+
 #' remoNA
 #' Removes NA rows (in a given column) from a dataset
 #' @export
 remoNA = function(dataset,column){
   return(dataset[which(!is.na(dataset[column])),])
 }
+
+#' uniNA
+#' Changes all NA values to an unique identifier
+#' @export
+uniNA = function(values){
+  uniques = cumsum(is.na(values))
+  for (i in 1:length(values)){
+    if (is.na(values[i])) {
+      values[i]=paste("NA-",uniques[i],sep="")
+    }
+  }
+  return(values)
+}
+
+#' changeNA
+#' Changes NA values in a dataframe to a given value
+#' @export
+  changeNA = function(dataset,value){
+  dataset[is.na(dataset)] = value
+  return(dataset)
+}
+
+#' makeNA
+#' Changes certain values in a list/vector to NA
+#' @export
+makeNA = function(values, which){
+  for (i in which){
+  values[values==i] = NA
+  }
+  return(values)
+}
+
+
 
 #' convertType
 #' Converts a variabe from one type to another
@@ -180,3 +208,54 @@ convertType = function(var,type){ #https://stackoverflow.com/questions/47410679/
 unSelect = function(df,...){
   return(df %>% select(-c(...)))
 }
+
+#' lookup
+#'
+#' For looking up variables from one dataset and then add them to another one.
+#' Use to add a column (value) to a dataset (samples), from another dataset (lookup), based on an identifier that exists in both (id_lookup)
+#' @param df_samples samples to look up
+#' @param df_lookup dataframe to look up against
+#' @param id_column common column between the two sets containing unique identifiers for rows
+#' @param value the value that is looked up and added to df_samples
+#' @example fishies <- fishies %>% lookup(df_birthdays, "fish_ID", "date_birth")
+#' @export
+lookup = function(df_samples, df_lookup, id_column, value_column,default=NA){
+  message("Looking up ",value_column," using ",id_column,"...")
+  #check if the df_samples already has a column with /value/
+  #if not, create one and fill it with NA
+  if(!value_column %in% colnames(df_samples)){
+    df_samples[[value_column]] = default
+  }
+
+  values = apply(df_samples, MARGIN=1, FUN=function(x){
+    s_id = x[[id_column]]
+    r_match = df_lookup %>% filter(!!sym(id_column)==s_id)
+    # check if this item was found (and is not NA)
+    if (nrow(r_match)!=0 & !is.na(r_match[[value_column]][1])){
+      r_match[[value_column]][1] %>% unlist()
+    }
+    else{
+      #if not, use the value already present
+      x[[value_column]][1] %>% unlist()
+    }
+  })
+  message(typeof(values))
+  df_samples[[value_column]] = values
+  message("Done!")
+  df_samples
+}
+
+
+#' manipulate
+#' Applies a function on the column of a dataframe and then returns that dataframe
+#' @param df A dataframe
+#' @param column The name of the column (string) that we want apply the function to
+#' @param fun The function we use on the column
+#' @example dataframe2 <- dataframe1 %>% manipulate("lengths",convertInches)
+#' @export
+manipulate = function(df, column, fun){
+  df[[column]] = fun(df[[column]])
+  return(df)
+}
+
+

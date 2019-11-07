@@ -78,10 +78,7 @@ run_snppit <- function(data_offspring, data_parents, projectName="project1",over
   return(data_snppit)
 }
 
-
-
-SNPPITfile = function(name,parents, offspring,parentSex=T,parentPopulation=T)
-{
+SNPPITfile = function(name,parents, offspring,parentSex=T,parentPopulation=T){
   # ASSUMES the following names for columns:
   # IDs:        "ID"         (string, no whitespace)
   # Sex:        "sex"        (F/M/?)

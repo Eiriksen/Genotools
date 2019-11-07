@@ -4,7 +4,7 @@
 \alias{calc_genetic_similarity}
 \title{calc_genetic_similarity}
 \usage{
-calc_genetic_similarity(sample1, sample2, naCutoff = 15)
+calc_genetic_similarity(sample1, sample2, naCutoff = 50)
 }
 \arguments{
 \item{SNPs1}{the first vector of SNPs}

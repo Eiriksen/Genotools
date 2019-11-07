@@ -2,10 +2,12 @@
 % Please edit documentation in R/script - family tools.R
 \name{find_familyID}
 \alias{find_familyID}
-\title{find_familyID}
+\title{find_familyID
+subfunction}
 \usage{
 find_familyID(ID_mam, ID_pap, df_families)
 }
 \description{
 find_familyID
+subfunction
 }

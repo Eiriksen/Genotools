@@ -2,10 +2,10 @@
 % Please edit documentation in R/script - family tools.R
 \name{findFamily}
 \alias{findFamily}
-\title{findFamily}
+\title{findFamily DEPRECATED}
 \usage{
 findFamily(ID_mams, ID_paps)
 }
 \description{
-findFamily
+findFamily DEPRECATED
 }

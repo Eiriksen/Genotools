@@ -7,5 +7,7 @@
 find_familyIDs(df, df_families)
 }
 \description{
-find_familyIDs
+Works on a dataframe of individuals (rows) including two columns ID_ma and ID_pa, which are the ID's of that individual's parents.
+\n
+Then looks up a dataframe of family info, df_families, with rows as families, and finds the ID's of each individual's family
 }
