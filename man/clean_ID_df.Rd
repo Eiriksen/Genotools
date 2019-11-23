@@ -32,6 +32,6 @@ clean_ID_df(
 \item{column}{The name of a column containing dirty IDs}
 }
 \description{
-For sorting out column with long and complicated identifiers or row names, where the true ID of a row is hidden in a string.\n
+For sorting out column with long and complicated identifiers or row names, where the true ID of a row is hidden in a string.\cr
 E.g: Make "dirty" ID's like "A0006_3911_BT-F1_GTCGTCTA_run20190930N" turn into "clean" ID's like 3991_BT
 }

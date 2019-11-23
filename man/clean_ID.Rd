@@ -28,6 +28,6 @@ clean_ID(
 \item{na_remove}{if you want to remove any entries that don't follow your pattern (otherwise, they'll turn to NA)}
 }
 \description{
-For sorting out a vector with long and complicated identifiers or row names, where the true ID of a row is hidden in a string.\n
+For sorting out a vector with long and complicated identifiers or row names, where the true ID of a row is hidden in a string.\cr
 E.g: Make "dirty" ID's like "A0006_3911_BT-F1_GTCGTCTA_run20190930N" turn into "clean" ID's like 3991_BT
 }
