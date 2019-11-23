@@ -11,3 +11,4 @@ get_advanced_genotypes(offspring, families)
 get_advanced_genotypes
 Deprecated! Use find_familyInfo instead
 }
+\keyword{internal}

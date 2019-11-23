@@ -9,3 +9,4 @@ adv_calc_TGC(df_fish, df_temp, period)
 \description{
 improved TGC calculator. Returns a vector
 }
+\keyword{internal}

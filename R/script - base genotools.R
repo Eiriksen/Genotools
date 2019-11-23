@@ -128,7 +128,8 @@ renameGenotypes = function(dataframe, LUT, not_genotypes=c()) {
   dataframe
 }
 
-
+#' determinesex2
+#' @keywords internal
 determineSex2 = function(dataframe, column, cutoff) {
   dataframe = dataframe %>% group_by(ID) %>% mutate(
     sex = SDY_to_sex(dataframe %>% select(matches(column)) %>% filter(dataframe$ID==ID) , cutoff)
@@ -137,6 +138,8 @@ determineSex2 = function(dataframe, column, cutoff) {
   return(dataframe )
 }
 
+#' SDY_to_sex
+#' @keywords internal
 SDY_to_sex = function(vector, cutoff) {
   sdy = mean(unlist(vector[1]), na.rm=T)
 
@@ -145,6 +148,8 @@ SDY_to_sex = function(vector, cutoff) {
   else return("M")
 }
 
+#' safeMerge
+#' @keywords internal
 safeMerge = function(vector){
   # Get the datatype of the vector
   type = typeof(vector)
@@ -160,6 +165,8 @@ safeMerge = function(vector){
   else return(convertType(NA,type))
 }
 
+#' renameGenotype
+#' @keywords internal
 renameGenotype = function(dataframe, column, LUT=c("1"="1 1","2"="1 2","3"="2 2")){
   genotype = dataframe[column] %>% unlist()
 
@@ -170,7 +177,8 @@ renameGenotype = function(dataframe, column, LUT=c("1"="1 1","2"="1 2","3"="2 2"
   return(dataframe)
 }
 
-# Cecks if certain columns exist in a dataset and returns an error message if not
+#' Cecks if certain columns exist in a dataset and returns an error message if not
+#' @keywords internal
 check_columns = function(dataset,columns,preMessage="Missing columns:"){
   message = c(preMessage)
 
@@ -292,7 +300,7 @@ manipulate = function(df, column, fun){
 }
 
 #' perform
-#'
+#' @keywords internal
 perform = function(df, column, fun){
   return(fun(df[[column]]))
 }
@@ -301,6 +309,7 @@ perform = function(df, column, fun){
 #'
 #' Takes a dataframe and a number n
 #' Returns return n randomly selected rows from the dataframe (as a dataframe)
+#' @export
 selRandom = function(df, n) {
   rows = round(runif(n,0,nrow(df)))
   selection = df[rows,]

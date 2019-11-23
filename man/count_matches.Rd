@@ -9,3 +9,4 @@ count_matches(snp1, snp2)
 \description{
 subfunction of calc_genetic_similarity
 }
+\keyword{internal}

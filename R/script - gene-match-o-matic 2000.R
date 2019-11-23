@@ -6,7 +6,7 @@
 #' Returns an integer between 1 and 0 (0 = 0% match, 1=100% match)
 #' @param SNPs1 the first vector of SNPs
 #' @param SNPs2 the second vector of SNPs
-#'
+#' @keywords internal
 calc_genetic_similarity = function(sample1, sample2,naCutoff=50){
   require(tidyverse)
   require(stringr)
@@ -34,7 +34,7 @@ calc_genetic_similarity = function(sample1, sample2,naCutoff=50){
 }
 
 #' subfunction of calc_genetic_similarity
-#'
+#' @keywords internal
 count_matches = function(snp1,snp2) {
   m=0
   if (is.na(snp1) | is.na(snp2)){
@@ -61,7 +61,7 @@ count_matches = function(snp1,snp2) {
 #' Using the calc_genetic_similarity function, takes a table of genetic samples (rows: samples, columns: snp genotypes) and calculates
 #' @param sample the sample to find closest match to
 #' @param lookup a dataframe of samples with SNP data (Each row one sample, each column a snp loki). First row must be ID info.
-#'
+#' @keywords internal
 calculate_similarities_to_sample = function(sample, lookup){ #for one vs one
   require(tidyverse)
 
@@ -159,7 +159,7 @@ assign_closest_matches = function(df_samples, df_lookup, similarity_matrix,cutof
 #' resolve_conflicts
 #'
 #' subfunction of assign_closest_matches
-#'
+#' @keywords internal
 resolve_conflicts = function(df_samples, df_similarities){
 
   shave_conflicts = function(df_samples, df_similarities, choice){

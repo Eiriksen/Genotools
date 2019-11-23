@@ -83,6 +83,8 @@ run_snppit <- function(df_offspring, df_parents, projectName="project1",overwrit
   return(data_snppit)
 }
 
+#' SNPPITfile
+#' @keywords internal
 SNPPITfile = function(name,parents, offspring,parentSex=T,parentPopulation=T){
   # ASSUMES the following names for columns:
   # IDs:        "ID"         (string, no whitespace)

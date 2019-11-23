@@ -15,3 +15,4 @@ sollution to this problem by user "yifyan" at stackoverflow.com
 https://stackoverflow.com/questions/14450384/create-a-vector-of-all-days-between-two-dates
 date_a and date_b must be lubridate-date-objects
 }
+\keyword{internal}

@@ -13,3 +13,4 @@ funkyTranspose
 https://stackoverflow.com/questions/6645524/what-is-the-best-way-to-transpose-a-data-frame-in-r-and-to-set-one-of-the-column
 Credits: mortonjt and nzcoops
 }
+\keyword{internal}

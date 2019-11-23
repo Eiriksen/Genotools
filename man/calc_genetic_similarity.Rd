@@ -17,3 +17,4 @@ Each element in the vector should be the genotypes of one SNP, written as bases,
 It's important that the order of SNPs in the two vectors are the same.
 Returns an integer between 1 and 0 (0 = 0% match, 1=100% match)
 }
+\keyword{internal}

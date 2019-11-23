@@ -1,5 +1,6 @@
 #' get_advanced_genotypes
 #' Deprecated! Use find_familyInfo instead
+#' @keywords internal
 get_advanced_genotypes <- function(offspring, families) {
   # Function for this specific pipeline, gives the correct heterozygote phenotype
   # apply following function to all offspring:
@@ -31,6 +32,7 @@ get_advanced_genotypes <- function(offspring, families) {
 }
 
 #' findFamily DEPRECATED
+#' @keywords internal
 findFamily = function(ID_mams, ID_paps) {
   family = unlist(data_families %>% filter(ID_ma == ID_mams & ID_pa == ID_paps) %>% select(ID_family))
   if (family %>% length() == 0) return(NA) else return(family)
@@ -38,6 +40,7 @@ findFamily = function(ID_mams, ID_paps) {
 
 #' find_familyID
 #' subfunction
+#' @keywords internal
 find_familyID = function(ID_mam, ID_pap, df_families){
   # df_families must be formated as
   # rows pr family
@@ -68,6 +71,7 @@ find_familyIDs = function(df, df_families){
 }
 
 #' get_familyInfo DEPRECATEDW
+#' @keywords internal
 get_familyInfo = function(df,df_families,columns) {
   for (i in columns){
     df[[i]] = apply(df,MARGIN=1,FUN=function(x){

@@ -9,3 +9,4 @@ resolve_conflicts(df_samples, df_similarities)
 \description{
 subfunction of assign_closest_matches
 }
+\keyword{internal}

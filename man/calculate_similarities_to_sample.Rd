@@ -14,3 +14,4 @@ calculate_similarities_to_sample(sample, lookup)
 \description{
 Using the calc_genetic_similarity function, takes a table of genetic samples (rows: samples, columns: snp genotypes) and calculates
 }
+\keyword{internal}
