@@ -2,7 +2,7 @@
 % Please edit documentation in R/script - family tools.R
 \name{find_familyIDs}
 \alias{find_familyIDs}
-\title{find_familyIDs}
+\title{Obtains family IDs based on known mothers and fathers}
 \usage{
 find_familyIDs(df, df_families)
 }

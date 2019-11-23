@@ -2,10 +2,10 @@
 % Please edit documentation in R/script - base genotools.R
 \name{renameGenotypes}
 \alias{renameGenotypes}
-\title{renameGenotypes}
+\title{Rename genotypes based on a lookup table}
 \usage{
 renameGenotypes(dataframe, LUT, not_genotypes = c())
 }
 \description{
-rename genotype columns
+In a dataframe, rename genotype columns
 }

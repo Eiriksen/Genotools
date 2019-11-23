@@ -1,5 +1,5 @@
 #' get_advanced_genotypes
-#' @export
+#' Deprecated! Use find_familyInfo instead
 get_advanced_genotypes <- function(offspring, families) {
   # Function for this specific pipeline, gives the correct heterozygote phenotype
   # apply following function to all offspring:
@@ -31,7 +31,6 @@ get_advanced_genotypes <- function(offspring, families) {
 }
 
 #' findFamily DEPRECATED
-#'
 findFamily = function(ID_mams, ID_paps) {
   family = unlist(data_families %>% filter(ID_ma == ID_mams & ID_pa == ID_paps) %>% select(ID_family))
   if (family %>% length() == 0) return(NA) else return(family)
@@ -51,7 +50,7 @@ find_familyID = function(ID_mam, ID_pap, df_families){
   if ( length(family) == 0) return(NA) else return(family)
 }
 
-#' find_familyIDs
+#' Obtains family IDs based on known mothers and fathers
 #'
 #' Works on a dataframe of individuals (rows) including two columns ID_ma and ID_pa, which are the ID's of that individual's parents.
 #' \n
@@ -68,8 +67,7 @@ find_familyIDs = function(df, df_families){
   df
 }
 
-#' get_familyInfo DEPRECATED
-#' @export
+#' get_familyInfo DEPRECATEDW
 get_familyInfo = function(df,df_families,columns) {
   for (i in columns){
     df[[i]] = apply(df,MARGIN=1,FUN=function(x){
@@ -80,7 +78,7 @@ get_familyInfo = function(df,df_families,columns) {
   df
 }
 
-#' find_familyInfo
+#' Obtains info about a given family (mother x father) and adds that info to their offspring
 #' Works on a dataframe of individuals (rows) including two columns ID_ma and ID_pa, which are the ID's of that individual's parents.
 #' For each individual, looks up another dataset of family info to attach family info to that individual (based on ID of its mother and father
 #' df_families structure: must include columns ID_ma and ID_pa for each row (family).

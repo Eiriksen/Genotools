@@ -2,10 +2,12 @@
 % Please edit documentation in R/script - family tools.R
 \name{get_advanced_genotypes}
 \alias{get_advanced_genotypes}
-\title{get_advanced_genotypes}
+\title{get_advanced_genotypes
+Deprecated! Use find_familyInfo instead}
 \usage{
 get_advanced_genotypes(offspring, families)
 }
 \description{
 get_advanced_genotypes
+Deprecated! Use find_familyInfo instead
 }

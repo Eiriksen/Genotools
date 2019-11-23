@@ -2,42 +2,40 @@
 % Please edit documentation in R/script - run_snppit.R
 \name{run_snppit}
 \alias{run_snppit}
-\title{run_snppt}
+\title{Parentage analysis (using SNPPT.exe)}
 \usage{
-run_snppit(
-  data_offspring,
-  data_parents,
-  projectName = "project1",
-  overwrite = F
-)
+run_snppit(df_offspring, df_parents, projectName = "project1", overwrite = F)
 }
 \arguments{
-\item{data_offspring}{Dataset contaning offspring ID's and SNP genotypes (see above)}
+\item{df_offspring}{Data frame contaning offspring ID's and SNP genotypes (see above)}
 
-\item{data_parents}{Dataset containing parent ID's, sex, population, and SNP genotypes (see above)}
+\item{df_parents}{Data frame containing parent ID's, sex, population, and SNP genotypes (see above)}
 
 \item{projectName}{Optional. A name that will be used for files created during the proces}
 }
 \description{
-Ver 0.1
-}
-\details{
 Function that simplifies using SNPPT.exe to calculate parentage based on SNP data
 Requires that snppt.exe is installed in the working directory!
+}
+\details{
+Download snppit here: https://github.com/eriqande/snppit
+Extract the zip-file, rename the "snppit-master" folder to "snppit", and place the folder in the same working directory as this script.
 
-Takes two datasets, one for offspring and one for parents. \cr
+Then you're ready! Usually, to run snppit, you need to prepare a specially formatted genpop file with offspring and parent data,
+then run snppit via the command line. This r function saves you some time by doing the formatting and command line stuff for you.
+All you need to do is to supply the function with a dataset of parents and offspring, and the function will return the resulting parentage analysis ready to use in R.
+
+The function takes two datasets, one for offspring and one for parents. \cr
 Both datasets must be formated as folows:
 \itemize{
 \item Individuals as rows
-\item SNP data on columns, one column pr SNP
+\item SNP data on columns, one column pr SNP. Important: any column that is not ID, (or for parents, sex or population), will be interpreted as a SNP.
 \item SNP genotype written numerically: 1=homozygous for allele a, 2=heterozygous, 3=homozygous for allele b
 \item One column named "ID" that contains some ID for each individual,
-\item Only for parents: One column named "population" that's either "M" or "F"
+\item Only for parents: One column named "sex" that's either "M" or "F"
 \item Only for parents: One column named "population" that gives that individual's population
 }
-
-Important!: Any column that is not ID, sex (parents) or population (parents) will be interpreted as an SNP!!!
 }
 \examples{
-run_snppt(offspring, parents, "Project_oct2019")
+parentage_data <- run_snppt(offspring, parents, "Project_oct2019")
 }

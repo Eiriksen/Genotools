@@ -2,7 +2,7 @@
 % Please edit documentation in R/script - family tools.R
 \name{find_familyInfo}
 \alias{find_familyInfo}
-\title{find_familyInfo
+\title{Obtains info about a given family (mother x father) and adds that info to their offspring
 Works on a dataframe of individuals (rows) including two columns ID_ma and ID_pa, which are the ID's of that individual's parents.
 For each individual, looks up another dataset of family info to attach family info to that individual (based on ID of its mother and father
 df_families structure: must include columns ID_ma and ID_pa for each row (family).}
@@ -10,7 +10,7 @@ df_families structure: must include columns ID_ma and ID_pa for each row (family
 find_familyInfo(df, df_families, columns)
 }
 \description{
-find_familyInfo
+Obtains info about a given family (mother x father) and adds that info to their offspring
 Works on a dataframe of individuals (rows) including two columns ID_ma and ID_pa, which are the ID's of that individual's parents.
 For each individual, looks up another dataset of family info to attach family info to that individual (based on ID of its mother and father
 df_families structure: must include columns ID_ma and ID_pa for each row (family).

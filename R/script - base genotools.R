@@ -1,58 +1,94 @@
-# Stuff to add later to clean_ID
-#   option to not remove NA values
-#   alternative function that only works on vectors/lists
 
-#' clean_ID
+#' Converts messy names and ID's to tidy clean ones.
 #'
-#' For cleaning "dirty" ID's and removing rows that doesn't match our ID-pattern
-#' @param dataset the dataset we're using. Each row has it's own ID
-#' @param column the name of the column containing the ID's
-#' @param identifier ID's need to be formated with a number and following expresio, e.g "34_individuals2019" where "_individuals2019" is the expression. Any entries not matching this format will be removed.
-#' @param trailing_ident Wether the expression if before (F) or after (T)of the ID number
+#' For sorting out a vector with long and complicated identifiers or row names, where the true ID of a row is hidden in a string.\n
+#' E.g: Make "dirty" ID's like "A0006_3911_BT-F1_GTCGTCTA_run20190930N" turn into "clean" ID's like 3991_BT
+#' @param vector A vector of "dirty" IDs
+#' @param identifier ID's need to be formated with a number and following identifier, e.g "34_individuals2019" where "_individuals2019" is the identifier. Any entries not matching this format will be removed.
+#' @param identifier_left Wether the identifier is on the left hand (T) or right-hand (R) side of the number
 #' @param numLength if you want leading zeroes, use this parameter to specify the length of the number, e.g "8" for 00000342
-#' @param prefix if you want a prefix in the new cleaned ID. Ex: "individuals2019_" will give you "individuals2019_0034"s
-#' @param keepName T: keeps the old column name, F: renames it to "ID", any other string: Renames the column to this string
+#' @param prefix if you want a prefix in the new cleaned ID. Ex: "individuals2019_" will give you "individuals2019_0034". If not specified, the old identifier will be used instead. Set to NA if you only want the number.
+#' @param na_remove if you want to remove any entries that don't follow your pattern (otherwise, they'll turn to NA)
 #' @export
-clean_ID = function(dataset, column, identifier="", trailing_ident=F, numLength=4, prefix="", numeric=F, keepName=F)
-{
-  # Extract the dirty ID's
-  dirtyID = unlist(dataset[column])
-  # set the regular identifier to be used based on the "trailing" parameter
-  if (trailing_ident) regExpr = paste("[0-9]{1,50}",identifier,sep="")
-  else          regExpr = paste(identifier,"[0-9]{1,50}",sep="")
-  # Creat the clean ID using str_extract on the dirtyID together with the regular identifier
-  cleanID = dirtyID %>% str_extract(regExpr)
+clean_ID = function(vector,identifier, identifier_left=F, numLength=4, prefix, na_remove=F,numeric=F) {
+  require(tidyverse)
+  require(stringr)
 
-  # Set the old column to be the new ID
-  dataset[column] = cleanID
+  # SET THE REGULAR EXPRESSION
+  if (!identifier_left) regExpr = paste("[0-9]{1,50}",identifier,sep="")
+  else                  regExpr = paste(identifier,"[0-9]{1,50}",sep="")
 
-  # Check what name to use
-  if (keepName == F) nColName = "ID"
-  else if (keepName == T) nColName = column
-  else nColName = keepName
+  # Extract the ID's from the dirty ID's
+  ID_dirty = vector
+  ID_clean = ID_dirty %>% str_extract(regExpr)
 
-  # Rename the column to "ID", and remove NA values (those not fitting the format)
-  dataset = dataset %>% rename(!! nColName := !! column) %>% remoNA(nColName)
+  # Remove the old identifier (for now)
+  ID_clean = ID_clean %>% sub(identifier,"",.)
 
-  # Remove the old identifier
-  dataset[[nColName]] = dataset[[nColName]] %>% sub(identifier,"", .)
+  # Remove NA values
+  if (na_remove) ID_clean = ID_clean[!is.na(ID_clean)]
 
   # Add leading zeroes
-  if (numLength !=0) dataset[[nColName]] = dataset[[nColName]] %>% as.numeric() %>% sprintf( paste("%0",numLength,"d",sep=""), .)
+  if (numLength!=0) ID_clean = ID_clean %>% as.numeric() %>% sprintf(paste("%0",numLength,"d",sep=""),.)
 
-  # Make numeric (or not)
-  if (numeric) dataset[[nColName]] = as.numeric(dataset[[nColName]])
+  # Make the ID completely numeric
+  if (numeric) ID_clean = as.numeric(ID_clean)
 
   # Add the new prefix
-  if (prefix!="") dataset[[nColName]] =dataset[[nColName]] %>% paste(prefix, ., sep="")
+  if (exists("prefix")){
+    if (is.na(prefix))       return(ID_clean)
+    else                     ID_clean = paste(prefix, ID_clean, sep="")
+  }
+  else if (identifier_left)  ID_clean = paste(ID_clean, identifier, sep="")
+  else if (!identifier_left) ID_clean = paste(identifier, ID_clean, sep="")
 
-  return(dataset)
+  return(ID_clean)
+}
+
+
+#' In a dataframe, converts messy names and ID's to tidy clean ones.
+#'
+#' For sorting out column with long and complicated identifiers or row names, where the true ID of a row is hidden in a string.\n
+#' E.g: Make "dirty" ID's like "A0006_3911_BT-F1_GTCGTCTA_run20190930N" turn into "clean" ID's like 3991_BT
+#' @param df The data frame
+#' @param column The name of a column containing dirty IDs
+#' @param identifier ID's need to be formated with a number and following identifier, e.g "34_individuals2019" where "_individuals2019" is the identifier. Any entries not matching this format will be removed.
+#' @param identifier_left Wether the identifier is on the left hand (T) or right-hand (R) side of the number
+#' @param numLength if you want leading zeroes, use this parameter to specify the length of the number, e.g "8" for 00000342
+#' @param prefix if you want a prefix in the new cleaned ID. Ex: "individuals2019_" will give you "individuals2019_0034"
+#' @param na_remove if you want to remove any rows that don't follow your pattern (otherwise, they'll turn to NA). Default is True.
+#' @export
+clean_ID_df = function(df, column_name, identifier, identifier_left=F, numLength=f, prefix, na_remove=T, keep_name=F, numeric=F){
+  require(tidyverse)
+  require(stringr)
+
+  # Ectract the dirty ID's
+  ID_dirty = unlist(df[column_name])
+
+  # Clean the ID
+  ID_clean = clean_ID(ID_dirty, identifier, identifier_left, numLength, prefix,numeric=numeric)
+
+  # Insert the cleaned ID's into the column
+  df[column_name] = ID_clean
+
+  # Rename the old ID column
+  # Check what name to use
+  if (keep_name == F) column_name_new = "ID"
+  else if (keep_name == T) column_name_new = column_name
+  else column_name_new = keep_name
+  # Rename the column to "ID"
+  df = df %>% rename(!! column_name_new := !! column_name)
+
+  # Remove NA values
+  if (na_remove) df = df %>% remoNA(column_name_new)
+
+  return(df)
 }
 
 
 
-#' determineSex
-#' For determining sex based on SDY
+#' Converting sdy to F or M
+#' Used on dataframes, for determining sex based on SDY in a given column
 #' @export
 #'
 determineSex = function(dataframe, column, cutoff) {
@@ -64,9 +100,9 @@ determineSex = function(dataframe, column, cutoff) {
 }
 
 
-#' unSexBad
+#' Set sex to NA if many SNPs missing.
 #'
-#' Sets sex to "NA" when a certain amount of SNP's are missing as NA
+#' In a dataframe, sets sex to "NA" when a certain amount of SNP's are missing as NA
 #' @export
 #'
 unSexBad = function(dataframe, column, sensitivity=0.35) {
@@ -81,9 +117,9 @@ unSexBad = function(dataframe, column, sensitivity=0.35) {
   return(dataframe)
 }
 
-#' renameGenotypes
+#' Rename genotypes based on a lookup table
 #'
-#' rename genotype columns
+#' In a dataframe, rename genotype columns
 #' @export
 renameGenotypes = function(dataframe, LUT, not_genotypes=c()) {
   for (i in names(dataframe %>% select(-c(not_genotypes)))) {
@@ -109,7 +145,6 @@ SDY_to_sex = function(vector, cutoff) {
   else return("M")
 }
 
-
 safeMerge = function(vector){
   # Get the datatype of the vector
   type = typeof(vector)
@@ -124,8 +159,6 @@ safeMerge = function(vector){
   if (length(unique(vector)) == 1) return(unique(vector))
   else return(convertType(NA,type))
 }
-
-
 
 renameGenotype = function(dataframe, column, LUT=c("1"="1 1","2"="1 2","3"="2 2")){
   genotype = dataframe[column] %>% unlist()
@@ -151,21 +184,21 @@ check_columns = function(dataset,columns,preMessage="Missing columns:"){
   }
 }
 
-#' numextract
+#' Converts anything to a number
 #' @export
 numextract <- function(string){
   require(stringr)
   as.numeric(str_extract(string, "\\-*\\d+\\.*\\d*"))
 }
 
-#' remoNA
+#' Removes rows with NA in a given column
 #' Removes NA rows (in a given column) from a dataset
 #' @export
 remoNA = function(dataset,column){
   return(dataset[which(!is.na(dataset[column])),])
 }
 
-#' uniNA
+#' Replace NA values with unique new identifier
 #' Changes all NA values to an unique identifier
 #' @export
 uniNA = function(values){
@@ -219,7 +252,7 @@ unSelect = function(df,...){
 #' @param value the value that is looked up and added to df_samples
 #' @example fishies <- fishies %>% lookup(df_birthdays, "fish_ID", "date_birth")
 #' @export
-lookup = function(df_samples, df_lookup, id_column, value_column,default=NA){
+lookup = function(df_samples, df_lookup, id_column, value_column,default=NA,overwrite=T){
   message("Looking up ",value_column," using ",id_column,"...")
   #check if the df_samples already has a column with /value/
   #if not, create one and fill it with NA
@@ -231,7 +264,7 @@ lookup = function(df_samples, df_lookup, id_column, value_column,default=NA){
     s_id = x[[id_column]]
     r_match = df_lookup %>% filter(!!sym(id_column)==s_id)
     # check if this item was found (and is not NA)
-    if (nrow(r_match)!=0 & !is.na(r_match[[value_column]][1])){
+    if (nrow(r_match)!=0 & !is.na(r_match[[value_column]][1]) & (is.na(x[[value_column]][1]) | overwrite==T)){
       r_match[[value_column]][1] %>% unlist()
     }
     else{
@@ -258,4 +291,19 @@ manipulate = function(df, column, fun){
   return(df)
 }
 
+#' perform
+#'
+perform = function(df, column, fun){
+  return(fun(df[[column]]))
+}
+
+#' selRandom()
+#'
+#' Takes a dataframe and a number n
+#' Returns return n randomly selected rows from the dataframe (as a dataframe)
+selRandom = function(df, n) {
+  rows = round(runif(n,0,nrow(df)))
+  selection = df[rows,]
+  return(selection)
+}
 

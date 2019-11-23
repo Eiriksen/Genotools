@@ -2,12 +2,12 @@
 % Please edit documentation in R/script - base genotools.R
 \name{remoNA}
 \alias{remoNA}
-\title{remoNA
+\title{Removes rows with NA in a given column
 Removes NA rows (in a given column) from a dataset}
 \usage{
 remoNA(dataset, column)
 }
 \description{
-remoNA
+Removes rows with NA in a given column
 Removes NA rows (in a given column) from a dataset
 }

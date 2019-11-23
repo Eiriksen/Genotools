@@ -1,4 +1,4 @@
-#' calc_genetic_similarity
+#' Calculate the genetic similarity between two individuals (based on SNPs)
 #'
 #' takes two vectors of SNPs,
 #' Each element in the vector should be the genotypes of one SNP, written as bases, e.g "CT" "CC" "AT" etc. Order, e.g. "CT" or "TC" is not taken into account.
@@ -33,6 +33,8 @@ calc_genetic_similarity = function(sample1, sample2,naCutoff=50){
   sum(matches)/(length(df$sample1)*2)
 }
 
+#' subfunction of calc_genetic_similarity
+#'
 count_matches = function(snp1,snp2) {
   m=0
   if (is.na(snp1) | is.na(snp2)){
@@ -106,20 +108,20 @@ create_similarityMatrix = function(df_samples, df_lookup){
   return(bind_rows(res))
 }
 
-#' assign_closest_matches
+#' Assigns the closest genetic matches to a set of individuals, checked up against another set of individuals. SNP based.
 #'
-#' Takes a dataframe of genetic samples, and checks it against another frame of samples to find matching samples.
-#' Both dataframes must be formated as:\n Rows=individuals/samples \n Column=SNP genotypes. Spelled as bases, e.g. "AB", "CT", "CC" etc. Must contain a column "ID" with a unique identifier for each row.
+#' Finds and assigns matches between two dataframe of genetic samples (SNPs and their genotypes)
+#' Both dataframes must be formated as:\n Rows=individuals/samples \n Column=SNP genotypes. Spelled as bases, e.g. "AB", "CT", "CC" etc. \n Must contain a column "ID" with a unique identifier for each row.
 #' \n\n
 #' Returns df_samples with an additional column, "ID_match", which is the closest match of that individual
 #' \n\n
 #' Needs to create a similarity matrix to operate. This is time consuming, and if you have already created one you can refer to it using the parameter similarity_matrix.
 #' After creating the similarity matrix, the function saves the matrix as a csv file for use later.
 #'
-#' @param df_samples Data frame with all samples to be lookup up
-#' @param df_lookup Data frame with samples to be looked up against
-#' @param similarity_matrix If you already have made a similarity matrix (see function create_similarityMatrix()) you can refer to it here and save some time.
-#' @param cutoff_similarity Any match with a similarity lower than this is set as NA
+#' @param df_samples Dataframe with all samples to be lookup up
+#' @param df_lookup Dataframe with samples to be looked up against (can be larger than df_samples)
+#' @param similarity_matrix A similarity matrix is created automatically, but if you already have made a similarity matrix (see function create_similarityMatrix()) you can refer to it here and save some time.
+#' @param cutoff_similarity Any match with a similarity (0 to 1) lower than this is set as NA
 #' @param resolve_conflicts If conflicts (samples with the same match) should be resolved
 #' @export
 assign_closest_matches = function(df_samples, df_lookup, similarity_matrix,cutoff_similarity=0.9, conflicts_resolve=T){
@@ -154,16 +156,15 @@ assign_closest_matches = function(df_samples, df_lookup, similarity_matrix,cutof
   df_samples
 }
 
-
 #' resolve_conflicts
 #'
-#' For use together with assign_closest_matches
+#' subfunction of assign_closest_matches
 #'
 resolve_conflicts = function(df_samples, df_similarities){
 
   shave_conflicts = function(df_samples, df_similarities, choice){
 
-    conflicts = get_conflicts(df_samples)
+    conflicts    = get_conflicts(df_samples)
     totalChoices = length(unique(df_similarities$ID_match))
 
     for(i in conflicts$.){

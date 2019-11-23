@@ -4,7 +4,14 @@
 \alias{lookup}
 \title{lookup}
 \usage{
-lookup(df_samples, df_lookup, id_column, value_column, default = NA)
+lookup(
+  df_samples,
+  df_lookup,
+  id_column,
+  value_column,
+  default = NA,
+  overwrite = T
+)
 }
 \arguments{
 \item{df_samples}{samples to look up}

@@ -2,10 +2,10 @@
 % Please edit documentation in R/script - base genotools.R
 \name{unSexBad}
 \alias{unSexBad}
-\title{unSexBad}
+\title{Set sex to NA if many SNPs missing.}
 \usage{
 unSexBad(dataframe, column, sensitivity = 0.35)
 }
 \description{
-Sets sex to "NA" when a certain amount of SNP's are missing as NA
+In a dataframe, sets sex to "NA" when a certain amount of SNP's are missing as NA
 }

@@ -1,29 +1,34 @@
-#' run_snppt
+#' Parentage analysis (using SNPPT.exe)
 #'
-#' Ver 0.1
 #'
 #' Function that simplifies using SNPPT.exe to calculate parentage based on SNP data
 #' Requires that snppt.exe is installed in the working directory!
 #'
-#' Takes two datasets, one for offspring and one for parents. \cr
+#' Download snppit here: https://github.com/eriqande/snppit
+#' Extract the zip-file, rename the "snppit-master" folder to "snppit", and place the folder in the same working directory as this script.
+#'
+#' Then you're ready! Usually, to run snppit, you need to prepare a specially formatted genpop file with offspring and parent data,
+#' then run snppit via the command line. This r function saves you some time by doing the formatting and command line stuff for you.
+#' All you need to do is to supply the function with a dataset of parents and offspring, and the function will return the resulting parentage analysis ready to use in R.
+#'
+#' The function takes two datasets, one for offspring and one for parents. \cr
 #' Both datasets must be formated as folows:
 #' \itemize{
 #' \item Individuals as rows
-#' \item SNP data on columns, one column pr SNP
+#' \item SNP data on columns, one column pr SNP. Important: any column that is not ID, (or for parents, sex or population), will be interpreted as a SNP.
 #' \item SNP genotype written numerically: 1=homozygous for allele a, 2=heterozygous, 3=homozygous for allele b
 #' \item One column named "ID" that contains some ID for each individual,
-#' \item Only for parents: One column named "population" that's either "M" or "F"
+#' \item Only for parents: One column named "sex" that's either "M" or "F"
 #' \item Only for parents: One column named "population" that gives that individual's population
 #' }
 #'
-#' Important!: Any column that is not ID, sex (parents) or population (parents) will be interpreted as an SNP!!!
 #'
-#' @param data_offspring Dataset contaning offspring ID's and SNP genotypes (see above)
-#' @param data_parents Dataset containing parent ID's, sex, population, and SNP genotypes (see above)
+#' @param df_offspring Data frame contaning offspring ID's and SNP genotypes (see above)
+#' @param df_parents Data frame containing parent ID's, sex, population, and SNP genotypes (see above)
 #' @param projectName Optional. A name that will be used for files created during the proces
 #' @export
-#' @examples run_snppt(offspring, parents, "Project_oct2019")
-run_snppit <- function(data_offspring, data_parents, projectName="project1",overwrite=F){
+#' @examples parentage_data <- run_snppt(offspring, parents, "Project_oct2019")
+run_snppit <- function(df_offspring, df_parents, projectName="project1",overwrite=F){
 
   oldwd = getwd()
   setwd(paste(oldwd,"/snppit",sep=""))
@@ -39,25 +44,25 @@ run_snppit <- function(data_offspring, data_parents, projectName="project1",over
   }
 
   # Check that the parent set has columns "ID", "Sex" and "population"
-  check_columns(data_parents,c("ID","sex","population"))
-  check_columns(data_offspring,c("ID"))
+  check_columns(df_parents,c("ID","sex","population"))
+  check_columns(df_offspring,c("ID"))
 
   # Convert the genotype data in the dataset from normal numeric to snppt numeric type
-  data_parents = data_parents %>%
+  df_parents = df_parents %>%
     renameGenotypes(LUT=c("1"="1 1","2"="1 2","3"="2 2"), not_genotypes=c("ID","sex","population"))
-  data_offspring = data_offspring %>%
+  df_offspring = df_offspring %>%
     renameGenotypes(LUT=c("1"="1 1","2"="1 2","3"="2 2"), not_genotypes=c("ID"))
 
   # remove any column that is not equal between parents and offspring dataset (except population and sex)
-  data_parents   <- data_parents %>% select( "ID","population","sex", data_offspring %>% names() %>% one_of() )
-  data_offspring <- data_offspring %>% select( "ID", data_parents %>% names() %>% one_of() )
+  df_parents   <- df_parents %>% select( "ID","population","sex", df_offspring %>% names() %>% one_of() )
+  df_offspring <- df_offspring %>% select( "ID", df_parents %>% names() %>% one_of() )
 
   #Filename to use for snpptfile
   snpptfile_name = paste("snpptfile -", projectName)
 
   #Write SNPPIT file based on parent and offspring data
   message("Attempting to write SNPPT settings file...")
-  SNPPITfile(snpptfile_name,data_parents, data_offspring)
+  SNPPITfile(snpptfile_name,df_parents, df_offspring)
   message("SNPPT settings file written!")
 
   # Run snppit

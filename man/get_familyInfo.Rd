@@ -2,10 +2,10 @@
 % Please edit documentation in R/script - family tools.R
 \name{get_familyInfo}
 \alias{get_familyInfo}
-\title{get_familyInfo DEPRECATED}
+\title{get_familyInfo DEPRECATEDW}
 \usage{
 get_familyInfo(df, df_families, columns)
 }
 \description{
-get_familyInfo DEPRECATED
+get_familyInfo DEPRECATEDW
 }
