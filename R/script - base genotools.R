@@ -1,7 +1,7 @@
 
 #' Converts messy names and ID's to tidy clean ones.
 #'
-#' For sorting out a vector with long and complicated identifiers or row names, where the true ID of a row is hidden in a string.\n
+#' For sorting out a vector with long and complicated identifiers or row names, where the true ID of a row is hidden in a string.\cr
 #' E.g: Make "dirty" ID's like "A0006_3911_BT-F1_GTCGTCTA_run20190930N" turn into "clean" ID's like 3991_BT
 #' @param vector A vector of "dirty" IDs
 #' @param identifier ID's need to be formated with a number and following identifier, e.g "34_individuals2019" where "_individuals2019" is the identifier. Any entries not matching this format will be removed.
@@ -48,7 +48,7 @@ clean_ID = function(vector,identifier, identifier_left=F, numLength=4, prefix, n
 
 #' In a dataframe, converts messy names and ID's to tidy clean ones.
 #'
-#' For sorting out column with long and complicated identifiers or row names, where the true ID of a row is hidden in a string.\n
+#' For sorting out column with long and complicated identifiers or row names, where the true ID of a row is hidden in a string.\cr
 #' E.g: Make "dirty" ID's like "A0006_3911_BT-F1_GTCGTCTA_run20190930N" turn into "clean" ID's like 3991_BT
 #' @param df The data frame
 #' @param column The name of a column containing dirty IDs

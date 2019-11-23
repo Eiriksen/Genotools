@@ -53,7 +53,7 @@ find_familyID = function(ID_mam, ID_pap, df_families){
 #' Obtains family IDs based on known mothers and fathers
 #'
 #' Works on a dataframe of individuals (rows) including two columns ID_ma and ID_pa, which are the ID's of that individual's parents.
-#' \n
+#' \cr
 #' Then looks up a dataframe of family info, df_families, with rows as families, and finds the ID's of each individual's family
 #' @export
 find_familyIDs = function(df, df_families){

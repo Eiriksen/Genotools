@@ -25,10 +25,10 @@ assign_closest_matches(
 }
 \description{
 Finds and assigns matches between two dataframe of genetic samples (SNPs and their genotypes)
-Both dataframes must be formated as:\n Rows=individuals/samples \n Column=SNP genotypes. Spelled as bases, e.g. "AB", "CT", "CC" etc. \n Must contain a column "ID" with a unique identifier for each row.
-\n\n
+Both dataframes must be formated as:\cr Rows=individuals/samples \cr Column=SNP genotypes. Spelled as bases, e.g. "AB", "CT", "CC" etc. \cr Must contain a column "ID" with a unique identifier for each row.
+\cr\cr
 Returns df_samples with an additional column, "ID_match", which is the closest match of that individual
-\n\n
+\cr\cr
 Needs to create a similarity matrix to operate. This is time consuming, and if you have already created one you can refer to it using the parameter similarity_matrix.
 After creating the similarity matrix, the function saves the matrix as a csv file for use later.
 }
