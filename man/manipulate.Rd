@@ -2,8 +2,7 @@
 % Please edit documentation in R/script - base genotools.R
 \name{manipulate}
 \alias{manipulate}
-\title{manipulate
-Applies a function on the column of a dataframe and then returns that dataframe}
+\title{Applies a function on the column of a dataframe and then returns that dataframe}
 \usage{
 manipulate(df, column, fun)
 }
@@ -15,6 +14,5 @@ manipulate(df, column, fun)
 \item{fun}{The function we use on the column}
 }
 \description{
-manipulate
 Applies a function on the column of a dataframe and then returns that dataframe
 }

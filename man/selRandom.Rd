@@ -2,7 +2,7 @@
 % Please edit documentation in R/script - base genotools.R
 \name{selRandom}
 \alias{selRandom}
-\title{selRandom()}
+\title{Selects random rows from a dataframe}
 \usage{
 selRandom(df, n)
 }

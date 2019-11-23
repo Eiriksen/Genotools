@@ -2,11 +2,11 @@
 % Please edit documentation in R/script - salmotools.R
 \name{adv_calc_TGC}
 \alias{adv_calc_TGC}
-\title{improved TGC calculator. Returns a vector}
+\title{Calculates Thermal Growth Coefficient TGC}
 \usage{
 adv_calc_TGC(df_fish, df_temp, period)
 }
 \description{
-improved TGC calculator. Returns a vector
+Calculates Thermal Growth Coefficient TGC
 }
 \keyword{internal}

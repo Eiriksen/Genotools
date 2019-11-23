@@ -88,6 +88,7 @@ clean_ID_df = function(df, column_name, identifier, identifier_left=F, numLength
 
 
 #' Converting sdy to F or M
+#'
 #' Used on dataframes, for determining sex based on SDY in a given column
 #' @export
 #'
@@ -200,6 +201,7 @@ numextract <- function(string){
 }
 
 #' Removes rows with NA in a given column
+#'
 #' Removes NA rows (in a given column) from a dataset
 #' @export
 remoNA = function(dataset,column){
@@ -207,6 +209,7 @@ remoNA = function(dataset,column){
 }
 
 #' Replace NA values with unique new identifier
+#'
 #' Changes all NA values to an unique identifier
 #' @export
 uniNA = function(values){
@@ -219,7 +222,7 @@ uniNA = function(values){
   return(values)
 }
 
-#' changeNA
+
 #' Changes NA values in a dataframe to a given value
 #' @export
   changeNA = function(dataset,value){
@@ -227,7 +230,7 @@ uniNA = function(values){
   return(dataset)
 }
 
-#' makeNA
+
 #' Changes certain values in a list/vector to NA
 #' @export
 makeNA = function(values, which){
@@ -239,7 +242,6 @@ makeNA = function(values, which){
 
 
 
-#' convertType
 #' Converts a variabe from one type to another
 #' @export
 convertType = function(var,type){ #https://stackoverflow.com/questions/47410679/change-type-of-object-based-on-typeof-another-object
@@ -250,9 +252,8 @@ unSelect = function(df,...){
   return(df %>% select(-c(...)))
 }
 
-#' lookup
-#'
 #' For looking up variables from one dataset and then add them to another one.
+#'
 #' Use to add a column (value) to a dataset (samples), from another dataset (lookup), based on an identifier that exists in both (id_lookup)
 #' @param df_samples samples to look up
 #' @param df_lookup dataframe to look up against
@@ -287,8 +288,9 @@ lookup = function(df_samples, df_lookup, id_column, value_column,default=NA,over
 }
 
 
-#' manipulate
+
 #' Applies a function on the column of a dataframe and then returns that dataframe
+#'
 #' @param df A dataframe
 #' @param column The name of the column (string) that we want apply the function to
 #' @param fun The function we use on the column
@@ -305,7 +307,7 @@ perform = function(df, column, fun){
   return(fun(df[[column]]))
 }
 
-#' selRandom()
+#' Selects random rows from a dataframe
 #'
 #' Takes a dataframe and a number n
 #' Returns return n randomly selected rows from the dataframe (as a dataframe)

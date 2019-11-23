@@ -2,12 +2,10 @@
 % Please edit documentation in R/script - base genotools.R
 \name{determineSex}
 \alias{determineSex}
-\title{Converting sdy to F or M
-Used on dataframes, for determining sex based on SDY in a given column}
+\title{Converting sdy to F or M}
 \usage{
 determineSex(dataframe, column, cutoff)
 }
 \description{
-Converting sdy to F or M
 Used on dataframes, for determining sex based on SDY in a given column
 }

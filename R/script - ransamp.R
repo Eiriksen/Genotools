@@ -1,4 +1,4 @@
-#' For random, condition based samplig of a set of individuals
+#' Random, condition based samplig of a set of individuals
 #'
 #' Takes a dataframe of individuals (rows) with certain attributes (columns), and samples a given number of individuals from all possible combinations of a given set of paramters
 #' For example, can sample one individual of ech combination of sex and age

@@ -2,12 +2,10 @@
 % Please edit documentation in R/script - base genotools.R
 \name{convertType}
 \alias{convertType}
-\title{convertType
-Converts a variabe from one type to another}
+\title{Converts a variabe from one type to another}
 \usage{
 convertType(var, type)
 }
 \description{
-convertType
 Converts a variabe from one type to another
 }

@@ -2,12 +2,10 @@
 % Please edit documentation in R/script - base genotools.R
 \name{makeNA}
 \alias{makeNA}
-\title{makeNA
-Changes certain values in a list/vector to NA}
+\title{Changes certain values in a list/vector to NA}
 \usage{
 makeNA(values, which)
 }
 \description{
-makeNA
 Changes certain values in a list/vector to NA
 }

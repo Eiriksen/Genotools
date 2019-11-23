@@ -2,12 +2,10 @@
 % Please edit documentation in R/script - base genotools.R
 \name{changeNA}
 \alias{changeNA}
-\title{changeNA
-Changes NA values in a dataframe to a given value}
+\title{Changes NA values in a dataframe to a given value}
 \usage{
 changeNA(dataset, value)
 }
 \description{
-changeNA
 Changes NA values in a dataframe to a given value
 }

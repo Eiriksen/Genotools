@@ -2,7 +2,7 @@
 % Please edit documentation in R/script - ransamp.R
 \name{ransamp}
 \alias{ransamp}
-\title{For random, condition based samplig of a set of individuals}
+\title{Random, condition based samplig of a set of individuals}
 \usage{
 ransamp(
   df_f,

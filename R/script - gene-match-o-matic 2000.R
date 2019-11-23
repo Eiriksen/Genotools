@@ -84,7 +84,7 @@ calculate_similarities_to_sample = function(sample, lookup){ #for one vs one
   return(result)
 }
 
-#' create_similarityMatrix
+#' Creates a genetic similarity matrix
 #'
 #' Compares two dataframes with SNP data (rows=individuals, columns=snp genotypes) and  finds the genetics similarity
 #' between all individuals in set a and b (total checkups is nrow(samples) x nrow(lookup)). Returns a dataframe that contains
@@ -108,7 +108,7 @@ create_similarityMatrix = function(df_samples, df_lookup){
   return(bind_rows(res))
 }
 
-#' Assigns the closest genetic matches to a set of individuals, checked up against another set of individuals. SNP based.
+#' Finds the closest genetic matches to a set of individuals, checked up against another set of individuals. SNP based.
 #'
 #' Finds and assigns matches between two dataframe of genetic samples (SNPs and their genotypes)
 #' Both dataframes must be formated as:\cr Rows=individuals/samples \cr Column=SNP genotypes. Spelled as bases, e.g. "AB", "CT", "CC" etc. \cr Must contain a column "ID" with a unique identifier for each row.

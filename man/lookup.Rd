@@ -2,7 +2,7 @@
 % Please edit documentation in R/script - base genotools.R
 \name{lookup}
 \alias{lookup}
-\title{lookup}
+\title{For looking up variables from one dataset and then add them to another one.}
 \usage{
 lookup(
   df_samples,
@@ -23,6 +23,5 @@ lookup(
 \item{value}{the value that is looked up and added to df_samples}
 }
 \description{
-For looking up variables from one dataset and then add them to another one.
 Use to add a column (value) to a dataset (samples), from another dataset (lookup), based on an identifier that exists in both (id_lookup)
 }

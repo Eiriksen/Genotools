@@ -2,7 +2,7 @@
 % Please edit documentation in R/script - gene-match-o-matic 2000.R
 \name{assign_closest_matches}
 \alias{assign_closest_matches}
-\title{Assigns the closest genetic matches to a set of individuals, checked up against another set of individuals. SNP based.}
+\title{Finds the closest genetic matches to a set of individuals, checked up against another set of individuals. SNP based.}
 \usage{
 assign_closest_matches(
   df_samples,

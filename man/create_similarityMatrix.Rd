@@ -2,7 +2,7 @@
 % Please edit documentation in R/script - gene-match-o-matic 2000.R
 \name{create_similarityMatrix}
 \alias{create_similarityMatrix}
-\title{create_similarityMatrix}
+\title{Creates a genetic similarity matrix}
 \usage{
 create_similarityMatrix(df_samples, df_lookup)
 }

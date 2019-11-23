@@ -46,7 +46,7 @@ calc_TGC = function(W0,W1,temp,time) {
   TGC = ((W1^(1/3)-W0^(1/3))/(temp*time)*1000)
 }
 
-#' improved TGC calculator. Returns a vector
+#' Calculates Thermal Growth Coefficient TGC
 #' @keywords internal
 adv_calc_TGC <- function(df_fish,df_temp,period)
 {
