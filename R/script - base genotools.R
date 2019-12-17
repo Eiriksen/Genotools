@@ -10,7 +10,7 @@
 #' @param prefix if you want a prefix in the new cleaned ID. Ex: "individuals2019_" will give you "individuals2019_0034". If not specified, the old identifier will be used instead. Set to NA if you only want the number.
 #' @param na_remove if you want to remove any entries that don't follow your pattern (otherwise, they'll turn to NA)
 #' @export
-clean_ID = function(vector,identifier, identifier_left=F, numLength=4, prefix, na_remove=F,numeric=F) {
+clean_ID = function(vector,identifier="", identifier_left=F, numLength=4, prefix, na_remove=F,numeric=F) {
   require(tidyverse)
   require(stringr)
 
@@ -58,7 +58,7 @@ clean_ID = function(vector,identifier, identifier_left=F, numLength=4, prefix, n
 #' @param prefix if you want a prefix in the new cleaned ID. Ex: "individuals2019_" will give you "individuals2019_0034"
 #' @param na_remove if you want to remove any rows that don't follow your pattern (otherwise, they'll turn to NA). Default is True.
 #' @export
-clean_ID_df = function(df, column_name, identifier, identifier_left=F, numLength=f, prefix, na_remove=T, keep_name=F, numeric=F){
+clean_ID_df = function(df, column_name, identifier="", identifier_left=F, numLength=F, prefix, na_remove=T, keep_name=F, numeric=F){
   require(tidyverse)
   require(stringr)
 
@@ -269,10 +269,20 @@ lookup = function(df_samples, df_lookup, id_column, value_column,default=NA,over
     df_samples[[value_column]] = default
   }
 
+  # for each row,
+  # 1. get all matching rows (r_match)
+  # 2. remove  all rows containing NA values
+  # 3. select the first of these rows, and use the value from that one
+  # 4. if the value is NA, use the value already present
+  # 5. if there already is a value in the row that's being looked up, only overwrite if overwrite==T
+
   values = apply(df_samples, MARGIN=1, FUN=function(x){
     s_id = x[[id_column]]
-    r_match = df_lookup %>% filter(!!sym(id_column)==s_id)
-    # check if this item was found (and is not NA)
+    r_match = df_lookup %>%
+              filter(!!sym(id_column)==s_id) %>%
+              remoNA(id_column)
+
+    # check if this item was found (and is not NA) (and the original is empty or overwrite==T)
     if (nrow(r_match)!=0 & !is.na(r_match[[value_column]][1]) & (is.na(x[[value_column]][1]) | overwrite==T)){
       r_match[[value_column]][1] %>% unlist()
     }

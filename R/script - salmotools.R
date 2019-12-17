@@ -53,7 +53,6 @@ adv_calc_TGC <- function(df_fish,df_temp,period)
   time <- dmy(df_fish[[glue("date.{period}")]]) - dmy(df_fish[[glue("date.{period-1}")]])
   W0   <- df_fish[[glue("weight.{period-1}")]]
   W1   <- df_fish[[glue("weight.{period}")]]
-
   temp <- mapply(calc_meanTemp,
                 startDate= dmy(df_fish[[glue("date.{period-1}")]]),
                 endDate  = dmy(df_fish[[glue("date.{period}")]]),
@@ -167,7 +166,7 @@ predict_weights <- function(df_fish, df_temp, date, startPeriod=999){
   # remove periods that are after the specified startPeriod
   periods = periods[periods <= startPeriod+1]
 
-
+message(periods[2:length(periods)])
   # calculate TGC for all used periods
   tgc <- as.data.frame(sapply(periods[2:length(periods)], FUN=function(i){
     adv_calc_TGC(df_fish,df_temp,i)
