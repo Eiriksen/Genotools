@@ -29,7 +29,7 @@ clean_ID = function(vector,identifier="", identifier_left=F, numLength=4, prefix
   if (na_remove) ID_clean = ID_clean[!is.na(ID_clean)]
 
   # Add leading zeroes
-  if (numLength!=0) ID_clean = ID_clean %>% as.numeric() %>% sprintf(paste("%0",numLength,"d",sep=""),.)
+  if (numLength!=0) ID_clean[!is.na(ID_clean)] = ID_clean[!is.na(ID_clean)] %>% as.numeric() %>% sprintf(paste("%0",numLength,"d",sep=""),.)
 
   # Make the ID completely numeric
   if (numeric) ID_clean = as.numeric(ID_clean)
@@ -37,10 +37,10 @@ clean_ID = function(vector,identifier="", identifier_left=F, numLength=4, prefix
   # Add the new prefix
   if (exists("prefix")){
     if (is.na(prefix))       return(ID_clean)
-    else                     ID_clean = paste(prefix, ID_clean, sep="")
+    else                     ID_clean[!is.na(ID_clean)] = paste(prefix, ID_clean[!is.na(ID_clean)], sep="")
   }
-  else if (identifier_left)  ID_clean = paste(ID_clean, identifier, sep="")
-  else if (!identifier_left) ID_clean = paste(identifier, ID_clean, sep="")
+  else if (identifier_left)  ID_clean[!is.na(ID_clean)] = paste(ID_clean[!is.na(ID_clean)], identifier, sep="")
+  else if (!identifier_left) ID_clean[!is.na(ID_clean)] = paste(identifier, ID_clean[!is.na(ID_clean)], sep="")
 
   return(ID_clean)
 }
@@ -71,6 +71,9 @@ clean_ID_df = function(df, column_name, identifier="", identifier_left=F, numLen
   # Insert the cleaned ID's into the column
   df[column_name] = ID_clean
 
+  # Remove NA values
+  if (na_remove) df = df %>% remoNA(column_name)
+
   # Rename the old ID column
   # Check what name to use
   if (keep_name == F) column_name_new = "ID"
@@ -78,9 +81,6 @@ clean_ID_df = function(df, column_name, identifier="", identifier_left=F, numLen
   else column_name_new = keep_name
   # Rename the column to "ID"
   df = df %>% rename(!! column_name_new := !! column_name)
-
-  # Remove NA values
-  if (na_remove) df = df %>% remoNA(column_name_new)
 
   return(df)
 }
