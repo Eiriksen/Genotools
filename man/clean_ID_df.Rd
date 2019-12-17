@@ -7,9 +7,9 @@
 clean_ID_df(
   df,
   column_name,
-  identifier,
+  identifier = "",
   identifier_left = F,
-  numLength = f,
+  numLength = F,
   prefix,
   na_remove = T,
   keep_name = F,

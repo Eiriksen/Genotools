@@ -6,7 +6,7 @@
 \usage{
 clean_ID(
   vector,
-  identifier,
+  identifier = "",
   identifier_left = F,
   numLength = 4,
   prefix,
