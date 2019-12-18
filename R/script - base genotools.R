@@ -1,4 +1,5 @@
 
+
 #' Converts messy names and ID's to tidy clean ones.
 #'
 #' For sorting out a vector with long and complicated identifiers or row names, where the true ID of a row is hidden in a string.\cr
