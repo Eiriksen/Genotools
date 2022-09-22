@@ -4,6 +4,3 @@
 \name{Genotools}
 \alias{Genotools}
 \title{Genotools: A collection of various tools for working with large salmon datasets (individuals and genotypes)}
-\description{
-Genotools: A collection of various tools for working with large salmon datasets (individuals and genotypes)
-}

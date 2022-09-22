@@ -4,12 +4,12 @@
 \alias{calculate_similarities_to_sample}
 \title{calculate_similarities_to_sample}
 \usage{
-calculate_similarities_to_sample(sample, lookup)
+calculate_similarities_to_sample(samp, lookup, naCutoff = 50)
 }
 \arguments{
-\item{sample}{the sample to find closest match to}
-
 \item{lookup}{a dataframe of samples with SNP data (Each row one sample, each column a snp loki). First row must be ID info.}
+
+\item{sample}{the sample to find closest match to}
 }
 \description{
 Using the calc_genetic_similarity function, takes a table of genetic samples (rows: samples, columns: snp genotypes) and calculates

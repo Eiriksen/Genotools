@@ -329,3 +329,46 @@ selRandom = function(df, n) {
   return(selection)
 }
 
+snps_clean_freqNA = function(df) {
+
+  message(glue("dataframe starting at {ncol(df)} columns."))
+
+  nas = df %>% colnames() %>% sapply(function(x){
+    sum(is.na(df[x]))
+  })
+
+  message("See historgram...")
+  hist(nas, breaks=ncol(df))
+  filter_at = numextract(readline(prompt="Enter cutoff value: "))
+  df = df %>% select_if(~sum(is.na(.)) < filter_at)
+
+  message(paste("Columns cut off at",filter_at,"NA-s.",sep=" "))
+  message(glue("Dataframe is now at {ncol(df)} columns."))
+  message(glue("Removing mono-something columns"))
+
+  df = Filter(function(x){ length(unique(x))!=1 }, df)
+  message(glue("Dataframe is now at {ncol(df)} columns."))
+  message("Done")
+
+  return(df)
+}
+
+snps_clean_mono <- function(tb, p_max=0){
+  # check over every single column:
+  # find the proportion of the most frequent type
+  # if the most frequent type is more frequent than p_max, it is considered monoallelic. Remove it.
+
+  message(glue::glue("Dataframe starting at {ncol(tb)} columns."))
+
+  cols_to_keep <- apply(tb, MARGIN=2, FUN=function(x){
+    p_most_frequent <- max(table(x)/length(x))
+    if (p_most_frequent > p_max) return(F) else return(T)
+    })
+  message(cols_to_keep)
+  message(glue::glue("Removing {sum(!cols_to_keep)} columns."))
+  tb <- tb[cols_to_keep]
+  message(glue::glue("Output dataframe at {ncol(tb)} columns."))
+
+  return(tb)
+
+}

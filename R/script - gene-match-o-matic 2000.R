@@ -14,14 +14,14 @@ calc_genetic_similarity = function(sample1, sample2,naCutoff=50){
   #Error checking: similar length
 
   # For easier processing using sapply
-  df = na.omit(data.frame(sample1,sample2))
+  results = data.frame(sample1,sample2)
 
   # Return NA if number of missing SNPS is large
-  if (sum(is.na(df)) < naCutoff) return(0)
+  if (sum(is.na(results)) > naCutoff) return(0)
 
   #iterate over each element in the vector
   #check how many alleles they have in common, (CT TC = 4, two matches,  CT CC = two matches, CC TT = nomatches), then store that number
-  matches = apply(df,1,FUN=function(x){
+  matches = apply(results,1,FUN=function(x){
     snp1 = x[["sample1"]]
     snp2 = x[["sample2"]]
 
@@ -30,7 +30,7 @@ calc_genetic_similarity = function(sample1, sample2,naCutoff=50){
     m
   })
   # Return the proportion of matches vs total potential matches
-  sum(matches)/(length(df$sample1)*2)
+  sum(matches)/(length(results$sample1)*2)
 }
 
 #' subfunction of calc_genetic_similarity
@@ -62,17 +62,17 @@ count_matches = function(snp1,snp2) {
 #' @param sample the sample to find closest match to
 #' @param lookup a dataframe of samples with SNP data (Each row one sample, each column a snp loki). First row must be ID info.
 #' @keywords internal
-calculate_similarities_to_sample = function(sample, lookup){ #for one vs one
+calculate_similarities_to_sample = function(samp, lookup, naCutoff=50){ #for one vs one
   require(tidyverse)
 
-  ID_sample = sample[1]
-  sample = unlist(sample[2:length(sample)])
+  ID_sample = samp[1]
+  samp <- unlist(samp[2:length(samp)])
 
   result =apply(lookup,1,FUN=function(x){
 
     ID = x[1]
-    SNPs = unlist(x[2:length(x)])
-    similarity <- calc_genetic_similarity(sample,SNPs)
+    SNPs <- unlist(x[2:length(x)])
+    similarity <- calc_genetic_similarity(samp,SNPs,naCutoff)
     return(list(ID_sample=ID_sample, ID_match=ID, similarity=similarity))
   })
 
@@ -94,14 +94,14 @@ calculate_similarities_to_sample = function(sample, lookup){ #for one vs one
 #' @param df_samples A dataframe with individuals (rows) and snp genotypces (columns). Must contain a column "ID" that gives each individual a unique ID
 #' @param df_lookup The dataframe the df_sample is looked up against. Must be formated like df_samples
 #' @export
-create_similarityMatrix = function(df_samples, df_lookup){
+create_similarityMatrix = function(df_samples, df_lookup,naCutoff=50){
   require(pbapply)
   require(tidyverse)
   results = data.frame(ID_sample=c(),ID_match=c(),similarity=c())
 
   message("Calculating similarity matrix...")
   res = pbapply(df_samples, MARGIN=1, FUN=function(x){
-    calculate_similarities_to_sample(x, df_lookup)
+    calculate_similarities_to_sample(x, df_lookup,naCutoff)
 
   })
   message("Done!")

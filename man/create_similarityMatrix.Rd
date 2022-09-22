@@ -4,7 +4,7 @@
 \alias{create_similarityMatrix}
 \title{Creates a genetic similarity matrix}
 \usage{
-create_similarityMatrix(df_samples, df_lookup)
+create_similarityMatrix(df_samples, df_lookup, naCutoff = 50)
 }
 \arguments{
 \item{df_samples}{A dataframe with individuals (rows) and snp genotypces (columns). Must contain a column "ID" that gives each individual a unique ID}
